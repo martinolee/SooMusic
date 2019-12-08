@@ -10,7 +10,15 @@ import UIKit
 
 class ArtistsViewController: UIViewController {
     
-    var artists = ["Jungle", "HONNE", "Rhye", "Jeremy Zucker", "Still Woozy", "How Great Were the Robins", "carpetgarden", "Mac DeMarco", "SALES", "Hippo Campus", "Mild Orange", "Imagine Dragons", "Coldplay", "Queen", "Finding Hope", "Lauv", "Ten Sleep", "Bruno Major", "Russ", "Unknown Mortal Orchestra", "AJR", "Alexsander 23", "blink-182", "Daniel Caesar", "Ed Sheeran", "Fazerdaze", "Frank Sinatra", "Foster the People", "Grouplove", "kennytheking", "Nauset Light", "Oasis", "Post Malone", "Vance Joy", "Wingtip", "XXXTENTACION", "Years & Years", "Zac Brown Band"]
+    var artists = [
+        "Jungle", "HONNE", "Rhye", "Jeremy Zucker", "Still Woozy", "How Great Were the Robins", "carpetgarden", "Mac DeMarco", "SALES", "Hippo Campus", "Mild Orange", "Imagine Dragons", "Coldplay", "Queen", "Finding Hope", "Lauv", "Ten Sleep", "Bruno Major", "Russ", "Unknown Mortal Orchestra", "AJR", "Alexsander 23", "blink-182", "Daniel Caesar", "Ed Sheeran", "Fazerdaze", "Frank Sinatra", "Foster the People", "Grouplove", "kennytheking", "Nauset Light", "Oasis", "Post Malone", "Vance Joy", "Wingtip", "XXXTENTACION", "Years & Years", "Zac Brown Band",
+        
+        
+        "Jungle", "HONNE", "Rhye", "Jeremy Zucker", "Still Woozy", "How Great Were the Robins", "carpetgarden", "Mac DeMarco", "SALES", "Hippo Campus", "Mild Orange", "Imagine Dragons", "Coldplay", "Queen", "Finding Hope", "Lauv", "Ten Sleep", "Bruno Major", "Russ", "Unknown Mortal Orchestra", "AJR", "Alexsander 23", "blink-182", "Daniel Caesar", "Ed Sheeran", "Fazerdaze", "Frank Sinatra", "Foster the People", "Grouplove", "kennytheking", "Nauset Light", "Oasis", "Post Malone", "Vance Joy", "Wingtip", "XXXTENTACION", "Years & Years", "Zac Brown Band",
+        
+        
+        "Jungle", "HONNE", "Rhye", "Jeremy Zucker", "Still Woozy", "How Great Were the Robins", "carpetgarden", "Mac DeMarco", "SALES", "Hippo Campus", "Mild Orange", "Imagine Dragons", "Coldplay", "Queen", "Finding Hope", "Lauv", "Ten Sleep", "Bruno Major", "Russ", "Unknown Mortal Orchestra", "AJR", "Alexsander 23", "blink-182", "Daniel Caesar", "Ed Sheeran", "Fazerdaze", "Frank Sinatra", "Foster the People", "Grouplove", "kennytheking", "Nauset Light", "Oasis", "Post Malone", "Vance Joy", "Wingtip", "XXXTENTACION", "Years & Years", "Zac Brown Band"
+    ]
     
     var sortedFirstLetters = Array<String>()
     var alphabeticallySortedArtists = [[String]]()
@@ -87,16 +95,18 @@ extension ArtistsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        view.tintColor = .clear
+        view.tintColor = .systemBackground
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "ArtistsCell")!
         let artist = alphabeticallySortedArtists[indexPath.section][indexPath.row]
         
         tableView.headerView(forSection: indexPath.section)?.contentView.backgroundColor = .clear
         
         cell.textLabel?.text = artist
+        
         cell.imageView?.layer.masksToBounds = true
         cell.imageView?.layer.cornerRadius = (cell.imageView?.layer.frame.width)! / 2
         
