@@ -50,10 +50,6 @@ class LibraryViewController: UIViewController {
         segue.destination.title = title
     }
     
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        songCollectiveTypeTableView.isEditing ? false : true
-    }
-    
     func setupSongCollectiveTypeTableView() {
         songCollectiveTypeTableView.delegate = self
         songCollectiveTypeTableView.dataSource = self
@@ -102,6 +98,7 @@ extension LibraryViewController: UITableViewDataSource {
         cell.accessoryType = .disclosureIndicator
         
         cell.textLabel?.text = originalSongCollectiveTypeList[target]
+        cell.textLabel?.font = .systemFont(ofSize: 20)
         
         if tableView.isEditing { tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none) }
         
@@ -129,37 +126,39 @@ extension LibraryViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        switch originalSongCollectiveTypeList[indexPath.row] {
-        case "Playlists":
-            let playlistVC = PlaylistsViewController()
-            navigationController?.pushViewController(playlistVC, animated: true)
-        case "Artists":
-            let artistsVC = ArtistsViewController()
-            navigationController?.pushViewController(artistsVC, animated: true)
-        case "Albums":
-            let albumsVC = AlbumsViewController()
-            navigationController?.pushViewController(albumsVC, animated: true)
-        case "Songs":
-            let songsVC = SongsViewController()
-            navigationController?.pushViewController(songsVC, animated: true)
-        case "Music Videos":
-            let musicVideosVC = MusicVideosViewController()
-            navigationController?.pushViewController(musicVideosVC, animated: true)
-        case "Genres":
-            let genresVC = GenresViewController()
-            navigationController?.pushViewController(genresVC, animated: true)
-        case "Compilations":
-            let compilationsVC = CompilationsViewController()
-            navigationController?.pushViewController(compilationsVC, animated: true)
-        case "Composers":
-            let composersVC = ComposersViewController()
-            navigationController?.pushViewController(composersVC, animated: true)
-        case "Downloaded Music":
-            let downloadedMusicVC = DownloadedMusicViewController()
-            navigationController?.pushViewController(downloadedMusicVC, animated: true)
-        default:
-            break
+        if !songCollectiveTypeTableView.isEditing {
+            switch originalSongCollectiveTypeList[indexPath.row] {
+                case "Playlists":
+                    let playlistVC = PlaylistsViewController()
+                    navigationController?.pushViewController(playlistVC, animated: true)
+                case "Artists":
+                    let artistsVC = ArtistsViewController()
+                    navigationController?.pushViewController(artistsVC, animated: true)
+                case "Albums":
+                    let albumsVC = AlbumsViewController()
+                    navigationController?.pushViewController(albumsVC, animated: true)
+                case "Songs":
+                    let songsVC = SongsViewController()
+                    navigationController?.pushViewController(songsVC, animated: true)
+                case "Music Videos":
+                    let musicVideosVC = MusicVideosViewController()
+                    navigationController?.pushViewController(musicVideosVC, animated: true)
+                case "Genres":
+                    let genresVC = GenresViewController()
+                    navigationController?.pushViewController(genresVC, animated: true)
+                case "Compilations":
+                    let compilationsVC = CompilationsViewController()
+                    navigationController?.pushViewController(compilationsVC, animated: true)
+                case "Composers":
+                    let composersVC = ComposersViewController()
+                    navigationController?.pushViewController(composersVC, animated: true)
+                case "Downloaded Music":
+                    let downloadedMusicVC = DownloadedMusicViewController()
+                    navigationController?.pushViewController(downloadedMusicVC, animated: true)
+                default:
+                    break
+                }
+            }
         }
-    }
     
 }
