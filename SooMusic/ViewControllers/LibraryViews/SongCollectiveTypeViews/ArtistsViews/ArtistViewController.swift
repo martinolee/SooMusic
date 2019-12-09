@@ -1,14 +1,16 @@
 //
-//  PlaylistsViewController.swift
+//  ArtistViewController.swift
 //  SooMusic
 //
-//  Created by Soohan Lee on 2019/12/05.
+//  Created by Soohan Lee on 2019/12/09.
 //  Copyright © 2019 Soohan. All rights reserved.
 //
 
 import UIKit
 
-class PlaylistsViewController: UIViewController {
+class ArtistViewController: UIViewController {
+    
+    var artist = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,7 +18,7 @@ class PlaylistsViewController: UIViewController {
         view.backgroundColor = .systemBackground
         
         navigationController?.navigationBar.prefersLargeTitles = true
-        title = "PlayLists"
+        title = artist
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sort", style: .plain, target: self, action: #selector(showSortTypes))
     }
@@ -27,25 +29,26 @@ class PlaylistsViewController: UIViewController {
         
         var sortActions = Array<UIAlertAction>()
 
-        let playlistSort = UIAlertAction(title: "Playlist Type", style: .default) { _ in
+        let titleSort = UIAlertAction(title: "Title", style: .default) { _ in
             print("Playlist Type")
-        }
-        sortActions.append(playlistSort)
-        
-        let titleSort =  UIAlertAction(title: "Title", style: .default) { _ in
-            print("Title")
         }
         sortActions.append(titleSort)
         
-        let recentlyAddedSort = UIAlertAction(title: "Recently Added", style: .default) { _ in
+        let recentlyAddedSort =  UIAlertAction(title: "Recently Added", style: .default) { _ in
             print("Recently Added")
         }
         sortActions.append(recentlyAddedSort)
         
-        let recentlyPlayedSort = UIAlertAction(title: "Recently Played", style: .default) { _ in
-            print("Rencently Played")
+        let newestFirstSort = UIAlertAction(title: "Newest First", style: .default) { _ in
+            print("Newest First")
         }
-        sortActions.append(recentlyPlayedSort)
+        sortActions.append(newestFirstSort)
+        
+        let oldestFirstSort = UIAlertAction(title: "Oldest First", style: .default) { _ in
+            print("Oldest First")
+        }
+        oldestFirstSort.setValue(true, forKey: "checked")
+        sortActions.append(oldestFirstSort)
         
         for sortAction in sortActions {
             sortAction.setValue(0, forKey: "titleTextAlignment")

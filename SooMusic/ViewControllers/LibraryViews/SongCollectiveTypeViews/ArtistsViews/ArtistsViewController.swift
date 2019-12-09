@@ -10,18 +10,12 @@ import UIKit
 
 class ArtistsViewController: UIViewController {
     
-    var artists = [
-        "Jungle", "HONNE", "Rhye", "Jeremy Zucker", "Still Woozy", "How Great Were the Robins", "carpetgarden", "Mac DeMarco", "SALES", "Hippo Campus", "Mild Orange", "Imagine Dragons", "Coldplay", "Queen", "Finding Hope", "Lauv", "Ten Sleep", "Bruno Major", "Russ", "Unknown Mortal Orchestra", "AJR", "Alexsander 23", "blink-182", "Daniel Caesar", "Ed Sheeran", "Fazerdaze", "Frank Sinatra", "Foster the People", "Grouplove", "kennytheking", "Nauset Light", "Oasis", "Post Malone", "Vance Joy", "Wingtip", "XXXTENTACION", "Years & Years", "Zac Brown Band",
-        
-        
-        "Jungle", "HONNE", "Rhye", "Jeremy Zucker", "Still Woozy", "How Great Were the Robins", "carpetgarden", "Mac DeMarco", "SALES", "Hippo Campus", "Mild Orange", "Imagine Dragons", "Coldplay", "Queen", "Finding Hope", "Lauv", "Ten Sleep", "Bruno Major", "Russ", "Unknown Mortal Orchestra", "AJR", "Alexsander 23", "blink-182", "Daniel Caesar", "Ed Sheeran", "Fazerdaze", "Frank Sinatra", "Foster the People", "Grouplove", "kennytheking", "Nauset Light", "Oasis", "Post Malone", "Vance Joy", "Wingtip", "XXXTENTACION", "Years & Years", "Zac Brown Band",
-        
-        
-        "Jungle", "HONNE", "Rhye", "Jeremy Zucker", "Still Woozy", "How Great Were the Robins", "carpetgarden", "Mac DeMarco", "SALES", "Hippo Campus", "Mild Orange", "Imagine Dragons", "Coldplay", "Queen", "Finding Hope", "Lauv", "Ten Sleep", "Bruno Major", "Russ", "Unknown Mortal Orchestra", "AJR", "Alexsander 23", "blink-182", "Daniel Caesar", "Ed Sheeran", "Fazerdaze", "Frank Sinatra", "Foster the People", "Grouplove", "kennytheking", "Nauset Light", "Oasis", "Post Malone", "Vance Joy", "Wingtip", "XXXTENTACION", "Years & Years", "Zac Brown Band"
+    private var artists = [
+        "Jungle", "HONNE", "Rhye", "Jeremy Zucker", "Still Woozy", "How Great Were the Robins", "carpetgarden", "Mac DeMarco", "SALES", "Hippo Campus", "Mild Orange", "Imagine Dragons", "Coldplay", "Queen", "Finding Hope", "Lauv", "Ten Sleep", "Bruno Major", "Russ", "Unknown Mortal Orchestra", "AJR", "Alexsander 23", "blink-182", "Daniel Caesar", "Ed Sheeran", "Fazerdaze", "Frank Sinatra", "Foster the People", "Grouplove", "kennytheking", "Nauset Light", "Oasis", "Post Malone", "Vance Joy", "Wingtip", "XXXTENTACION", "Years & Years", "Zac Brown Band", "2Pac", "21 Savage",
     ]
     
-    var sortedFirstLetters = Array<String>()
-    var alphabeticallySortedArtists = [[String]]()
+    private var sortedFirstLetters = Array<String>()
+    private var alphabeticallySortedArtists = [[String]]()
     
     let artistsTableView: UITableView = {
         let tableView = UITableView()
@@ -40,18 +34,24 @@ class ArtistsViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         title = "Artists"
         
+        setupArtistsData()
         setupArtistsTableView()
-        print(alphabeticallySortedArtists)
     }
     
-    func setupArtistsTableView() {
+    private func setupArtistsTableView() {
         artistsTableView.delegate = self
         artistsTableView.dataSource = self
         
         artists.sort()
         
         for artist in artists {
-            sortedFirstLetters.append(String(artist.first!).uppercased())
+            let firstLetter = String(artist.first!).uppercased()
+            let alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ"
+            
+            if alphabet.contains(firstLetter) {
+                sortedFirstLetters.append(String(artist.first!).uppercased())
+            }
+            
         }
         
         sortedFirstLetters = Array(Set(sortedFirstLetters))
@@ -62,7 +62,7 @@ class ArtistsViewController: UIViewController {
                 .filter { $0.first!.uppercased() == firstLetter }
         }
         
-        artistsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "ArtistsCell")
+        artistsTableView.register(ArtistsTableViewCell.self, forCellReuseIdentifier: "ArtistsCell")
         
         view.addSubview(artistsTableView)
         
@@ -72,6 +72,35 @@ class ArtistsViewController: UIViewController {
             artistsTableView.rightAnchor .constraint(equalTo: self.view.rightAnchor ),
             artistsTableView.leftAnchor  .constraint(equalTo: self.view.leftAnchor  ),
         ])
+    }
+    
+    private func setupArtistsData() {
+        let alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ"
+        
+        artists.sort()
+        
+        for artist in artists {
+            let firstLetter = String(artist.first!).uppercased()
+            
+            if !alphabet.contains(firstLetter) {
+                sortedFirstLetters.append("#")
+            } else {
+                sortedFirstLetters.append(firstLetter)
+            }
+        }
+        
+        sortedFirstLetters = Array(Set(sortedFirstLetters)).sorted()
+        
+        alphabeticallySortedArtists = sortedFirstLetters.map { firstLetter in
+            return artists.filter { artist -> Bool in
+                if firstLetter == "#" {
+                    if !alphabet.contains(String(artist.first!)) {
+                        return true
+                    }
+                }
+                return artist.first!.uppercased() == firstLetter
+            }
+        }
     }
     
 }
@@ -100,20 +129,15 @@ extension ArtistsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ArtistsCell")!
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ArtistsCell") as! ArtistsTableViewCell
         let artist = alphabeticallySortedArtists[indexPath.section][indexPath.row]
         
-        tableView.headerView(forSection: indexPath.section)?.contentView.backgroundColor = .clear
-        
-        cell.textLabel?.text = artist
-        
-        cell.imageView?.layer.masksToBounds = true
-        cell.imageView?.layer.cornerRadius = (cell.imageView?.layer.frame.width)! / 2
+        cell.artistLabel.text = artist
         
         if let artistImage = UIImage(named: artist) {
-            cell.imageView?.image = artistImage
+            cell.artistImageView.image = artistImage
         } else {
-            cell.imageView?.image = UIImage(systemName: "music.mic")
+            cell.artistImageView.image = UIImage(systemName: "music.mic")
         }
         
         return cell
@@ -122,5 +146,12 @@ extension ArtistsViewController: UITableViewDataSource {
 }
 
 extension ArtistsViewController: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let artistVC = ArtistViewController()
+        artistVC.artist = alphabeticallySortedArtists[indexPath.section][indexPath.row]
+        navigationController?.pushViewController(artistVC, animated: true)
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 }
