@@ -10,10 +10,12 @@ import UIKit
 
 class ArtistsTableViewCell: UITableViewCell {
     
+    static let identifier = "ArtistCell"
+    
     let artistImageView: UIImageView = {
         let imageView = UIImageView()
         
-        imageView.frame = CGRect(x: 0, y: 0, width: 50, height: 52)
+        imageView.frame = CGRect(x: 0, y: 0, width: 52, height: 52)
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = (imageView.layer.frame.width) / 2
         

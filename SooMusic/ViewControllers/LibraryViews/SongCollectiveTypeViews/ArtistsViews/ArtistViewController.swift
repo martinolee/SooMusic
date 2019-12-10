@@ -11,6 +11,19 @@ import UIKit
 class ArtistViewController: UIViewController {
     
     var artist = ""
+    
+    let albumCollectionView: UICollectionView = {
+        
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
+        layout.itemSize = CGSize(width: 150, height: 150)
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return collectionView
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +34,8 @@ class ArtistViewController: UIViewController {
         title = artist
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sort", style: .plain, target: self, action: #selector(showSortTypes))
+        
+        setupAlbumCollectionView()
     }
     
     @objc
@@ -58,5 +73,44 @@ class ArtistViewController: UIViewController {
         
         present(sortAlertController, animated: true, completion: nil)
     }
+    
+    func setupAlbumCollectionView() {
+        
+        albumCollectionView.dataSource = self
+        albumCollectionView.delegate = self
+        
+        albumCollectionView.register(AlbumCollectionViewCell.self, forCellWithReuseIdentifier: AlbumCollectionViewCell.identifier)
+        
+        view.addSubview(albumCollectionView)
+        
+        NSLayoutConstraint.activate([
+            albumCollectionView.topAnchor   .constraint(equalTo: self.view.topAnchor   ),
+            albumCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            albumCollectionView.rightAnchor .constraint(equalTo: self.view.rightAnchor ),
+            albumCollectionView.leftAnchor  .constraint(equalTo: self.view.leftAnchor  ),
+        ])
+    }
 
+}
+
+extension ArtistViewController: UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 2
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 100
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AlbumCollectionViewCell.identifier, for: indexPath) as! AlbumCollectionViewCell
+        
+        return cell
+    }
+    
+}
+
+extension ArtistViewController: UICollectionViewDelegate {
+    
 }

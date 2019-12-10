@@ -62,7 +62,7 @@ class ArtistsViewController: UIViewController {
                 .filter { $0.first!.uppercased() == firstLetter }
         }
         
-        artistsTableView.register(ArtistsTableViewCell.self, forCellReuseIdentifier: "ArtistsCell")
+        artistsTableView.register(ArtistsTableViewCell.self, forCellReuseIdentifier: ArtistsTableViewCell.identifier)
         
         view.addSubview(artistsTableView)
         
@@ -129,7 +129,7 @@ extension ArtistsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ArtistsCell") as! ArtistsTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: ArtistsTableViewCell.identifier) as! ArtistsTableViewCell
         let artist = alphabeticallySortedArtists[indexPath.section][indexPath.row]
         
         cell.artistLabel.text = artist
